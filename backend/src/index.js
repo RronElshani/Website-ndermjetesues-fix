@@ -5,6 +5,7 @@ const cors = require('cors');
 // Import routes
 const authRoutes = require('./routes/auth');
 const serviceRoutes = require('./routes/services');
+const pervojaRoutes = require('./routes/pervoja');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,6 +38,7 @@ app.get('/health', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/pervoja', pervojaRoutes);
 
 // 404 handler
 app.use((req, res) => {

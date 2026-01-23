@@ -49,4 +49,13 @@ export const servicesAPI = {
     getMyServices: () => api.get('/services/user/my-services'),
 };
 
+// Pervoja (Experience) API
+export const pervojaAPI = {
+    getMy: () => api.get('/pervoja/my'),
+    getByUser: (userId) => api.get(`/pervoja/user/${userId}`),
+    create: (data) => api.post('/pervoja', data),
+    update: (id, data) => api.put(`/pervoja/${id}`, data),
+    delete: (id) => api.delete(`/pervoja/${id}`),
+};
+
 export default api;
