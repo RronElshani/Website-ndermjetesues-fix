@@ -58,4 +58,12 @@ export const pervojaAPI = {
     delete: (id) => api.delete(`/pervoja/${id}`),
 };
 
+// Reviews API
+export const reviewsAPI = {
+    getByService: (serviceId) => api.get(`/reviews/service/${serviceId}`),
+    create: (data) => api.post('/reviews', data),
+    update: (id, data) => api.put(`/reviews/${id}`, data),
+    delete: (id) => api.delete(`/reviews/${id}`),
+};
+
 export default api;

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { servicesAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import ReviewSection from '../components/ReviewSection';
 import './ServiceDetail.css';
 
 const ServiceDetail = () => {
@@ -135,6 +136,9 @@ const ServiceDetail = () => {
                         </div>
                     </aside>
                 </div>
+
+                {/* Reviews Section */}
+                <ReviewSection serviceId={service.id} serviceOwnerId={service.user_id} />
             </div>
         </div>
     );
