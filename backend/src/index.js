@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const serviceRoutes = require('./routes/services');
 const pervojaRoutes = require('./routes/pervoja');
 const reviewRoutes = require('./routes/reviews');
+const searchRoutes = require('./routes/search');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/pervoja', pervojaRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/search', searchRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -66,4 +66,11 @@ export const reviewsAPI = {
     delete: (id) => api.delete(`/reviews/${id}`),
 };
 
+// Search API
+export const searchAPI = {
+    search: (params) => api.get('/search', { params }),
+    suggestions: (q) => api.get('/search/suggestions', { params: { q } }),
+    filters: () => api.get('/search/filters'),
+};
+
 export default api;

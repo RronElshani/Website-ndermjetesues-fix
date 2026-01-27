@@ -110,6 +110,118 @@ const Service = {
         const query = 'DELETE FROM services WHERE id = $1 AND user_id = $2 RETURNING id';
         const result = await pool.query(query, [id, userId]);
         return result.rows[0];
+    },
+
+    /**
+     * Advanced search with text, filters, and sorting
+     */
+    async search({ query: searchQuery, kategoria, qyteti, minPrice, maxPrice, sortBy = 'newest', limit = 20, offset = 0 }) {
+        let query = `
+            SELECT s.*, u.emri, u.mbiemri, u.profile_picture,
+                   COALESCE(AVG(r.rating), 0) as avg_rating,
+                   COUNT(r.id) as review_count
+            FROM services s
+            JOIN users u ON s.user_id = u.id
+            LEFT JOIN reviews r ON s.id = r.service_id
+            WHERE s.aktiv = true
+        `;
+        const values = [];
+        let paramCount = 1;
+
+        // Text search on title and description
+        if (searchQuery && searchQuery.trim()) {
+            query += ` AND (s.titulli ILIKE $${paramCount} OR s.pershkrimi ILIKE $${paramCount})`;
+            values.push(`%${searchQuery.trim()}%`);
+            paramCount++;
+        }
+
+        // Category filter
+        if (kategoria) {
+            query += ` AND s.kategoria = $${paramCount}`;
+            values.push(kategoria);
+            paramCount++;
+        }
+
+        // City filter
+        if (qyteti) {
+            query += ` AND s.qyteti = $${paramCount}`;
+            values.push(qyteti);
+            paramCount++;
+        }
+
+        // Price range
+        if (minPrice !== undefined && minPrice !== null) {
+            query += ` AND s.cmimi >= $${paramCount}`;
+            values.push(minPrice);
+            paramCount++;
+        }
+
+        if (maxPrice !== undefined && maxPrice !== null) {
+            query += ` AND s.cmimi <= $${paramCount}`;
+            values.push(maxPrice);
+            paramCount++;
+        }
+
+        // Group by for aggregation
+        query += ` GROUP BY s.id, u.id`;
+
+        // Sorting
+        switch (sortBy) {
+            case 'price_low':
+                query += ` ORDER BY s.cmimi ASC`;
+                break;
+            case 'price_high':
+                query += ` ORDER BY s.cmimi DESC`;
+                break;
+            case 'rating':
+                query += ` ORDER BY avg_rating DESC`;
+                break;
+            case 'oldest':
+                query += ` ORDER BY s.created_at ASC`;
+                break;
+            default: // newest
+                query += ` ORDER BY s.created_at DESC`;
+        }
+
+        query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+        values.push(limit, offset);
+
+        const result = await pool.query(query, values);
+        return result.rows;
+    },
+
+    /**
+     * Get unique categories
+     */
+    async getCategories() {
+        const query = 'SELECT DISTINCT kategoria FROM services WHERE aktiv = true ORDER BY kategoria';
+        const result = await pool.query(query);
+        return result.rows.map(r => r.kategoria);
+    },
+
+    /**
+     * Get unique cities
+     */
+    async getCities() {
+        const query = 'SELECT DISTINCT qyteti FROM services WHERE aktiv = true ORDER BY qyteti';
+        const result = await pool.query(query);
+        return result.rows.map(r => r.qyteti);
+    },
+
+    /**
+     * Search suggestions (autocomplete)
+     */
+    async getSuggestions(query) {
+        if (!query || query.length < 2) return [];
+
+        const sql = `
+            SELECT DISTINCT titulli as suggestion, 'service' as type
+            FROM services 
+            WHERE titulli ILIKE $1 AND aktiv = true
+            LIMIT 5
+        `;
+        const result = await pool.query(sql, [`%${query}%`]);
+        return result.rows;
     }
 };
 
