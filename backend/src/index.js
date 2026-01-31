@@ -9,6 +9,10 @@ const pervojaRoutes = require('./routes/pervoja');
 const reviewRoutes = require('./routes/reviews');
 const searchRoutes = require('./routes/search');
 const messageRoutes = require('./routes/messages');
+const adminRoutes = require('./routes/admin');
+
+// Import middleware
+const visitMiddleware = require('./middleware/visitMiddleware');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,6 +42,9 @@ app.get('/health', (req, res) => {
     });
 });
 
+// Visit tracking middleware
+app.use(visitMiddleware);
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
@@ -45,6 +52,7 @@ app.use('/api/pervoja', pervojaRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 handler
 app.use((req, res) => {

@@ -24,6 +24,9 @@ const Navbar = () => {
 
                     {user ? (
                         <>
+                            {user.role === 'admin' && (
+                                <Link to="/admin" className="nav-link admin-link">Admin</Link>
+                            )}
                             {user.role === 'profesionist' && (
                                 <Link to="/my-services" className="nav-link">Shërbimet e Mia</Link>
                             )}

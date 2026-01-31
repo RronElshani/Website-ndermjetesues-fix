@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -22,7 +22,11 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        // Don't redirect on 401 for auth endpoints (login/register)
+        const isAuthEndpoint = error.config?.url?.includes('/auth/login') ||
+            error.config?.url?.includes('/auth/register');
+
+        if (error.response?.status === 401 && !isAuthEndpoint) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             window.location.href = '/login';
@@ -71,6 +75,16 @@ export const searchAPI = {
     search: (params) => api.get('/search', { params }),
     suggestions: (q) => api.get('/search/suggestions', { params: { q } }),
     filters: () => api.get('/search/filters'),
+};
+
+// Admin API
+export const adminAPI = {
+    getDashboard: () => api.get('/admin/dashboard'),
+    getVisitors: (period) => api.get('/admin/visitors', { params: { period } }),
+    getUsers: () => api.get('/admin/users'),
+    getServices: () => api.get('/admin/services'),
+    deleteUser: (id) => api.delete(`/admin/users/${id}`),
+    deleteService: (id) => api.delete(`/admin/services/${id}`),
 };
 
 export default api;

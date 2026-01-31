@@ -10,6 +10,7 @@ import ServiceDetail from './pages/ServiceDetail';
 import Profile from './pages/Profile';
 import CreateService from './pages/CreateService';
 import MyServices from './pages/MyServices';
+import AdminDashboard from './pages/AdminDashboard';
 import './App.css';
 
 function App() {
@@ -43,6 +44,13 @@ function App() {
               <Route path="/my-services" element={
                 <ProtectedRoute allowedRoles={['profesionist']}>
                   <MyServices />
+                </ProtectedRoute>
+              } />
+
+              {/* Protected Routes - Admin only */}
+              <Route path="/admin" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AdminDashboard />
                 </ProtectedRoute>
               } />
             </Routes>

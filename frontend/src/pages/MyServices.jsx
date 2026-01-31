@@ -56,7 +56,7 @@ const MyServices = () => {
                         <p>Menaxhoni shërbimet tuaja</p>
                     </div>
                     <Link to="/services/create" className="add-btn">
-                        ➕ Shto Shërbim
+                        + Shto Shërbim
                     </Link>
                 </div>
 
@@ -71,7 +71,7 @@ const MyServices = () => {
                         <h2>Asnjë shërbim ende</h2>
                         <p>Filloni duke shtuar shërbimin tuaj të parë</p>
                         <Link to="/services/create" className="create-first-btn">
-                            ✨ Krijo Shërbimin e Parë
+                            Krijo Shërbimin e Parë
                         </Link>
                     </div>
                 ) : (
@@ -94,13 +94,13 @@ const MyServices = () => {
                                 </div>
                                 <div className="service-actions">
                                     <Link to={`/services/${service.id}`} className="action-btn view">
-                                        👁️ Shiko
+                                        Shiko
                                     </Link>
                                     <button
                                         className="action-btn delete"
                                         onClick={() => handleDelete(service.id)}
                                     >
-                                        🗑️ Fshi
+                                        Fshi
                                     </button>
                                 </div>
                             </div>

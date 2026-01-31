@@ -73,6 +73,44 @@ const User = {
         const query = 'SELECT id, emri, mbiemri, email, role, created_at FROM users ORDER BY created_at DESC';
         const result = await pool.query(query);
         return result.rows;
+    },
+
+    /**
+     * Delete a user (admin only)
+     * Related data is deleted via CASCADE
+     */
+    async delete(id) {
+        const query = 'DELETE FROM users WHERE id = $1 RETURNING id';
+        const result = await pool.query(query, [id]);
+        return result.rowCount > 0;
+    },
+
+    /**
+     * Get user registration statistics
+     */
+    async getRegistrationStats() {
+        const query = `
+            SELECT 
+                COUNT(*) as total_users,
+                COUNT(*) FILTER (WHERE role = 'klient') as clients,
+                COUNT(*) FILTER (WHERE role = 'profesionist') as professionals,
+                COUNT(*) FILTER (WHERE role = 'admin') as admins,
+                COUNT(*) FILTER (WHERE created_at >= CURRENT_DATE) as today,
+                COUNT(*) FILTER (WHERE created_at >= CURRENT_DATE - INTERVAL '7 days') as this_week,
+                COUNT(*) FILTER (WHERE created_at >= CURRENT_DATE - INTERVAL '30 days') as this_month
+            FROM users
+        `;
+        const result = await pool.query(query);
+        return result.rows[0];
+    },
+
+    /**
+     * Get total count of users
+     */
+    async count() {
+        const query = 'SELECT COUNT(*) as count FROM users';
+        const result = await pool.query(query);
+        return parseInt(result.rows[0].count);
     }
 };
 

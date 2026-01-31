@@ -105,7 +105,7 @@ const Profile = () => {
                     <div className="profile-info">
                         <h1>{user.emri} {user.mbiemri}</h1>
                         <span className={`role-badge ${user.role}`}>
-                            {user.role === 'profesionist' ? '🔧 Profesionist' : '👤 Klient'}
+                            {user.role === 'profesionist' ? 'Profesionist' : 'Klient'}
                         </span>
                         <p className="profile-email">{user.email}</p>
                     </div>
@@ -127,7 +127,7 @@ const Profile = () => {
                                 className="edit-btn"
                                 onClick={() => setIsEditing(true)}
                             >
-                                ✏️ Ndrysho
+                                Ndrysho
                             </button>
                         )}
                     </div>

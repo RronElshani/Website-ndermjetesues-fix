@@ -98,12 +98,27 @@ CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages(sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver ON messages(receiver_id);
 
 -- =============================================
+-- SITE VISITS TABLE (Analytics tracking)
+-- =============================================
+CREATE TABLE IF NOT EXISTS site_visits (
+    id SERIAL PRIMARY KEY,
+    visitor_ip VARCHAR(45),
+    page_path VARCHAR(500),
+    user_agent TEXT,
+    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_visits_date ON site_visits(visited_at);
+CREATE INDEX IF NOT EXISTS idx_visits_user ON site_visits(user_id);
+
+-- =============================================
 -- SAMPLE SEED DATA (Optional - for development)
 -- =============================================
 
--- Insert sample admin user (password: admin123)
+-- Insert admin user (email: elshanirron@gmail.com, password: Arti2001)
 INSERT INTO users (emri, mbiemri, email, password, role)
-VALUES ('Admin', 'Fiks', 'admin@fiks.al', '$2a$10$rKN3HkR0J9P6J1CPNR9JFeJGYXgJnZ1L5J9lP0kMaJ5J5J5J5J5J5', 'admin')
+VALUES ('Admin', 'Fiks', 'elshanirron@gmail.com', '$2b$10$7PhoYPOrE4ZeeU8aR3Umxewl9VFaqFdWNOou2.UBUIMRY7KEEP4wO', 'admin')
 ON CONFLICT (email) DO NOTHING;
 
 COMMENT ON TABLE users IS 'Stores user accounts - clients, professionals, and admins';
@@ -111,3 +126,4 @@ COMMENT ON TABLE services IS 'Marketplace service listings by professionals';
 COMMENT ON TABLE pervoja IS 'Work experience entries for professional profiles';
 COMMENT ON TABLE reviews IS 'User reviews and ratings for services';
 COMMENT ON TABLE messages IS 'Private messages between users';
+COMMENT ON TABLE site_visits IS 'Visitor analytics for admin dashboard';

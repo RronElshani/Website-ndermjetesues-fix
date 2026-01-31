@@ -117,7 +117,7 @@ const Register = () => {
                                 className={`role-btn ${formData.role === 'klient' ? 'active' : ''}`}
                                 onClick={() => setFormData({ ...formData, role: 'klient' })}
                             >
-                                <span className="role-icon">👤</span>
+                                <span className="role-icon">K</span>
                                 <span>Klient</span>
                                 <small>Kërkoj shërbime</small>
                             </button>
@@ -126,7 +126,7 @@ const Register = () => {
                                 className={`role-btn ${formData.role === 'profesionist' ? 'active' : ''}`}
                                 onClick={() => setFormData({ ...formData, role: 'profesionist' })}
                             >
-                                <span className="role-icon">🔧</span>
+                                <span className="role-icon">P</span>
                                 <span>Profesionist</span>
                                 <small>Ofroj shërbime</small>
                             </button>

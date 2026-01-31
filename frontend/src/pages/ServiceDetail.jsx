@@ -99,7 +99,7 @@ const ServiceDetail = () => {
                                 )}
                                 <div className="provider-info">
                                     <h3>{service.emri} {service.mbiemri}</h3>
-                                    <span className="provider-role">🔧 Profesionist</span>
+                                    <span className="provider-role">Profesionist</span>
                                 </div>
                             </div>
 

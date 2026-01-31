@@ -97,7 +97,7 @@ const ReviewSection = ({ serviceId, serviceOwnerId }) => {
 
                 {user && !isOwner && !hasReviewed && !showForm && (
                     <button className="add-review-btn" onClick={() => setShowForm(true)}>
-                        ✍️ Shkruaj Vlerësim
+                        Shkruaj Vlerësim
                     </button>
                 )}
             </div>
@@ -162,7 +162,7 @@ const ReviewSection = ({ serviceId, serviceOwnerId }) => {
                                 </div>
                                 {user?.id === review.user_id && (
                                     <button className="delete-review" onClick={() => handleDelete(review.id)}>
-                                        🗑️
+                                        Fshi
                                     </button>
                                 )}
                             </div>

@@ -122,7 +122,7 @@ const Marketplace = () => {
                     className={`filter-toggle ${showFilters ? 'active' : ''}`}
                     onClick={() => setShowFilters(!showFilters)}
                 >
-                    ⚙️ Filtrat {activeFiltersCount > 0 && `(${activeFiltersCount})`}
+                    Filtrat {activeFiltersCount > 0 && `(${activeFiltersCount})`}
                 </button>
 
                 <div className="sort-control">

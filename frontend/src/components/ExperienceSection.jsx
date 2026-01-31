@@ -96,7 +96,7 @@ const ExperienceSection = ({ userId, isOwner }) => {
     return (
         <div className="experience-section">
             <div className="section-header">
-                <h2>💼 Përvoja Profesionale</h2>
+                <h2>Përvoja Profesionale</h2>
                 {isOwner && !showForm && (
                     <button className="add-exp-btn" onClick={() => setShowForm(true)}>
                         + Shto
@@ -204,8 +204,8 @@ const ExperienceSection = ({ userId, isOwner }) => {
                                     </div>
                                     {isOwner && (
                                         <div className="exp-actions">
-                                            <button onClick={() => handleEdit(exp)}>✏️</button>
-                                            <button onClick={() => handleDelete(exp.id)}>🗑️</button>
+                                            <button onClick={() => handleEdit(exp)}>Ndrysho</button>
+                                            <button onClick={() => handleDelete(exp.id)}>Fshi</button>
                                         </div>
                                     )}
                                 </div>
