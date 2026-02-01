@@ -87,4 +87,13 @@ export const adminAPI = {
     deleteService: (id) => api.delete(`/admin/services/${id}`),
 };
 
+// Messages API
+export const messagesAPI = {
+    getConversations: () => api.get('/messages/conversations'),
+    getMessages: (userId) => api.get(`/messages/${userId}`),
+    sendMessage: (data) => api.post('/messages', data),
+    markAsRead: (userId) => api.put(`/messages/read/${userId}`),
+    getUnreadCount: () => api.get('/messages/unread/count'),
+};
+
 export default api;

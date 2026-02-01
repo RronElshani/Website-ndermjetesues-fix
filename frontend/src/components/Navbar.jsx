@@ -15,8 +15,7 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo">
-                    <span className="logo-icon">🔧</span>
-                    <span className="logo-text">Fiks</span>
+                    <span className="logo-text">FIKS</span>
                 </Link>
 
                 <div className="navbar-links">
@@ -30,6 +29,7 @@ const Navbar = () => {
                             {user.role === 'profesionist' && (
                                 <Link to="/my-services" className="nav-link">Shërbimet e Mia</Link>
                             )}
+                            <Link to="/messages" className="nav-link">Mesazhet</Link>
                             <Link to="/profile" className="nav-link profile-link">
                                 {user.profile_picture ? (
                                     <img src={user.profile_picture} alt="Profile" className="nav-avatar" />

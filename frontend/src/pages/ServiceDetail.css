@@ -221,6 +221,11 @@
     color: #00d4ff;
 }
 
+.contact-btn.message {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
 .contact-btn:hover {
     transform: translateY(-2px);
 }

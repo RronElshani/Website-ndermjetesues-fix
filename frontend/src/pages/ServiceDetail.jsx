@@ -105,6 +105,11 @@ const ServiceDetail = () => {
 
                             {user ? (
                                 <div className="contact-section">
+                                    {user.id !== service.user_id && (
+                                        <Link to={`/messages/${service.user_id}`} className="contact-btn message">
+                                            Dërgo Mesazh
+                                        </Link>
+                                    )}
                                     {service.telefoni && (
                                         <a href={`tel:${service.telefoni}`} className="contact-btn phone">
                                             📞 {service.telefoni}

@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 import CreateService from './pages/CreateService';
 import MyServices from './pages/MyServices';
 import AdminDashboard from './pages/AdminDashboard';
+import Messages from './pages/Messages';
 import './App.css';
 
 function App() {
@@ -32,6 +33,16 @@ function App() {
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              } />
+              <Route path="/messages" element={
+                <ProtectedRoute>
+                  <Messages />
+                </ProtectedRoute>
+              } />
+              <Route path="/messages/:userId" element={
+                <ProtectedRoute>
+                  <Messages />
                 </ProtectedRoute>
               } />
 
