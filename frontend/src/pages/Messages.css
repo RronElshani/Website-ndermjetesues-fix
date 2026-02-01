@@ -222,6 +222,15 @@
     gap: 15px;
 }
 
+.no-messages {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+}
+
 .message {
     max-width: 70%;
     display: flex;

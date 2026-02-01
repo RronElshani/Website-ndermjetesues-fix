@@ -13,6 +13,7 @@ const Messages = () => {
     const [conversations, setConversations] = useState([]);
     const [messages, setMessages] = useState([]);
     const [selectedConversation, setSelectedConversation] = useState(null);
+    const [selectedPartner, setSelectedPartner] = useState(null);
     const [newMessage, setNewMessage] = useState('');
     const [loading, setLoading] = useState(true);
     const [sending, setSending] = useState(false);
@@ -50,7 +51,17 @@ const Messages = () => {
     const fetchMessages = async (partnerId) => {
         try {
             const response = await messagesAPI.getMessages(partnerId);
-            setMessages(response.data.data || []);
+            const data = response.data.data;
+
+            // Handle the response structure: {messages, otherUser}
+            if (data.messages) {
+                setMessages(data.messages);
+                setSelectedPartner(data.otherUser);
+            } else {
+                // Fallback if data is directly an array
+                setMessages(data || []);
+            }
+
             // Mark as read
             await messagesAPI.markAsRead(partnerId);
             // Update unread count in conversations
@@ -108,7 +119,12 @@ const Messages = () => {
         }
     };
 
-    const getSelectedPartner = () => {
+    const getPartnerInfo = () => {
+        // First check selectedPartner from API response
+        if (selectedPartner) {
+            return selectedPartner;
+        }
+        // Fallback to finding in conversations list
         return conversations.find(c => c.partner_id === selectedConversation);
     };
 
@@ -122,6 +138,8 @@ const Messages = () => {
             </div>
         );
     }
+
+    const partner = getPartnerInfo();
 
     return (
         <div className="messages-page">
@@ -186,40 +204,50 @@ const Messages = () => {
                         <>
                             {/* Chat Header */}
                             <div className="chat-header">
-                                {getSelectedPartner() && (
+                                {partner ? (
                                     <>
                                         <div className="chat-partner-avatar">
-                                            {getSelectedPartner().profile_picture ? (
-                                                <img src={getSelectedPartner().profile_picture} alt="" />
+                                            {partner.profile_picture ? (
+                                                <img src={partner.profile_picture} alt="" />
                                             ) : (
                                                 <div className="avatar-placeholder">
-                                                    {getSelectedPartner().emri?.[0]}
-                                                    {getSelectedPartner().mbiemri?.[0]}
+                                                    {partner.emri?.[0]}
+                                                    {partner.mbiemri?.[0]}
                                                 </div>
                                             )}
                                         </div>
                                         <div className="chat-partner-info">
-                                            <h3>{getSelectedPartner().emri} {getSelectedPartner().mbiemri}</h3>
+                                            <h3>{partner.emri} {partner.mbiemri}</h3>
                                         </div>
                                     </>
+                                ) : (
+                                    <div className="chat-partner-info">
+                                        <h3>Duke ngarkuar...</h3>
+                                    </div>
                                 )}
                             </div>
 
                             {/* Messages */}
                             <div className="messages-list">
-                                {messages.map(msg => (
-                                    <div
-                                        key={msg.id}
-                                        className={`message ${msg.sender_id === user.id ? 'sent' : 'received'}`}
-                                    >
-                                        <div className="message-content">
-                                            <p>{msg.mesazhi}</p>
-                                            <span className="message-time">
-                                                {formatTime(msg.created_at)}
-                                            </span>
-                                        </div>
+                                {messages.length === 0 ? (
+                                    <div className="no-messages">
+                                        <p>Asnjë mesazh ende. Filloni bisedën!</p>
                                     </div>
-                                ))}
+                                ) : (
+                                    messages.map(msg => (
+                                        <div
+                                            key={msg.id}
+                                            className={`message ${msg.sender_id === user.id ? 'sent' : 'received'}`}
+                                        >
+                                            <div className="message-content">
+                                                <p>{msg.mesazhi}</p>
+                                                <span className="message-time">
+                                                    {formatTime(msg.created_at)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
                                 <div ref={messagesEndRef} />
                             </div>
 
