@@ -157,7 +157,6 @@ const AdminDashboard = () => {
                 <div className="overview-section">
                     <div className="stats-grid">
                         <div className="stat-card users">
-                            <div className="stat-icon">U</div>
                             <div className="stat-info">
                                 <h3>Përdorues Gjithsej</h3>
                                 <p className="stat-number">{stats.users?.total_users || 0}</p>
@@ -169,7 +168,6 @@ const AdminDashboard = () => {
                         </div>
 
                         <div className="stat-card services">
-                            <div className="stat-icon">S</div>
                             <div className="stat-info">
                                 <h3>Shërbime</h3>
                                 <p className="stat-number">{stats.services?.total || 0}</p>
@@ -177,7 +175,6 @@ const AdminDashboard = () => {
                         </div>
 
                         <div className="stat-card messages">
-                            <div className="stat-icon">M</div>
                             <div className="stat-info">
                                 <h3>Mesazhe</h3>
                                 <p className="stat-number">{stats.messages?.total || 0}</p>
@@ -185,7 +182,6 @@ const AdminDashboard = () => {
                         </div>
 
                         <div className="stat-card visitors">
-                            <div className="stat-icon">V</div>
                             <div className="stat-info">
                                 <h3>Vizita Sot</h3>
                                 <p className="stat-number">{stats.visitors?.today?.total_visits || 0}</p>
